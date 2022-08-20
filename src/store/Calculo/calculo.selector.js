@@ -1,0 +1,2 @@
+export const selectReceitas = state => state.calculo.transitions.length ? state.calculo.transitions.filter(transition => transition.valor >= 0) : []
+export const selectDespesas = state => state.calculo.transitions.length ? state.calculo.transitions.filter(transition => transition.valor < 0) : []
