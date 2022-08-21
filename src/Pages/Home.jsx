@@ -1,8 +1,7 @@
+/* eslint-disable no-throw-literal */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton'
-import DeleteForever from '@material-ui/icons/DeleteForever'
 import { saldoCalculator, addTransition, deleteTransition } from '../store/Calculo/calculo.action';
 import { selectDespesas, selectReceitas } from '../store/Calculo/calculo.selector';
 
@@ -13,7 +12,7 @@ import FormAddTransition from '../Components/FormAddTransition';
 import PopoverApp from '../Components/PopoverApp';
 import ThemeContext from '../assets/ThemeContext';
 import { Brightness2, Brightness7 } from '@material-ui/icons';
-import { Tooltip } from '@material-ui/core';
+import TransitionList from '../Components/TransitionList';
 
 const Home = () => {
 
@@ -22,12 +21,12 @@ const Home = () => {
   const dispatch = useDispatch()
   const estado = useSelector(state => state.calculo)
   const saldoBruto = useSelector(state => state.calculo.saldoAtual)
-  const saldoAtual = saldoBruto.toFixed(2)
   const Transitions = useSelector(state => state.calculo.transitions)
   const Receitas = useSelector(selectReceitas)
   const Despesas = useSelector(selectDespesas)
   const AllReceitas = Receitas.length ? Receitas.reduce((previousValue, Value) => previousValue + Value.valor,0) : 0
   const AllDespesas = Despesas.length ? Despesas.reduce((previousValue, Value) => previousValue + Value.valor,0) : 0
+  const saldoAtual = saldoBruto.toFixed(2)
   
   const [Fields, setFields] = useState({
     nome: '',
@@ -57,24 +56,31 @@ const handleClosePop = () => setAnchorEl(false)
   const AddNewTransition = event => {
     event.preventDefault()
     const { nome, valor } = Fields
-    
-    const data = {
-      id: Transitions.length + 1,
-      nome,
-      valor
-    }
 
-    dispatch(addTransition(data))
-    setFields({ nome: '', valor: '' })
-    setDeletar(false)
-    handleClick()
+    try {
+      if(nome === '' || valor === '') throw 'Há campos vazios, preencha-os'
+
+      const data = {
+        id: Transitions.length + 1,
+        nome,
+        valor
+      }
+  
+      dispatch(addTransition(data))
+      setFields({ nome: '', valor: '' })
+      setDeletar(false)
+      handleClick()
+
+    } catch (error) {
+      alert('Erro: '+error)
+    }
   }
 
-  const DeleteTransition = id => {
+  const DeleteTransition = useCallback(id => {
     dispatch(deleteTransition(id))
     setDeletar(true)
     handleClick()
-  }
+  }, [])
 
   const handleChanges = e => {
     const { name, value } = e.target
@@ -111,27 +117,11 @@ const handleClosePop = () => setAnchorEl(false)
         </Painel>
         <TransitionsSection Theme={Theme}>
           <Title>Transações</Title>
-          <ul>
-            {
-              Transitions.length ? Transitions.map(transition => (
-                <li key={transition.id}>
-                  <div className={transition.valor > 0 ? 'receita' : 'despesa'}>
-                    <span>{transition.nome}</span>
-                    {transition.valor > 0 ? <span>+ KZ {transition.valor}</span> : <span>- KZ {Math.abs(transition.valor)}</span>}
-                  </div>
-                  <Tooltip title={<p style={{fontSize: '1.5em'}}>Eliminar Transição</p>} arrow>
-                    <IconButton onClick={() => DeleteTransition(transition.id)}>
-                      <DeleteForever />
-                    </IconButton>
-                  </Tooltip>
-                </li>
-              )) : <p>Nenhuma transição foi adicionanda ainda!</p>
-            }
-          </ul>
+          <TransitionList DeleteTransition={DeleteTransition}/>
         </TransitionsSection>
         <AddTransition>
           <Title>Adicionar transação</Title>
-          <FormAddTransition AddNewTransition={AddNewTransition} handleChanges={handleChanges}/>
+          <FormAddTransition AddNewTransition={AddNewTransition} Fields={Fields} handleChanges={handleChanges}/>
         </AddTransition>
       </ContainerApp>
       <PopoverApp open={anchorEl} onClose={handleClosePop} Deletar={Deletar}/>
