@@ -7,7 +7,7 @@ Todo mundo já alguma vez sentiu-se que não consegue controlar a sua vida finan
 
 ***
 
-<img src='./src/assets/img/1 (2).png'>
+<img src='./src/assets/img/1 (1)-horz.jpg'>
 
 
 ## Tecnologias Utilizadas
@@ -19,7 +19,7 @@ Todo mundo já alguma vez sentiu-se que não consegue controlar a sua vida finan
 * Dark Mood(Modo Noturno)
 
 ### Implantação do Projecto
-- **Vercel** : 
+- **Vercel** : https://controle-financeiro-amber.vercel.app/
 
 ### Autor
 ***
