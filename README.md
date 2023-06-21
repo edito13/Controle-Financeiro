@@ -11,7 +11,7 @@ Todo mundo já alguma vez sentiu-se que não consegue controlar a sua vida finan
 
 ***
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/P5RycnMEwhk"" frameborder="0" allowfullscreen></iframe>
+![Vídeo](https://im2.ezgif.com/tmp/ezgif-2-17942de8eb.gif)
 
 ***
 
