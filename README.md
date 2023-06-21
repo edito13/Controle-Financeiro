@@ -10,7 +10,7 @@ Todo mundo já alguma vez sentiu-se que não consegue controlar a sua vida finan
 <img src='./src/assets/img/1 (1)-horz.jpg'>
 
 ***
-![Vídeo oficial](https://drive.google.com/file/d/1uFpKqxN3oNoNzYosUbBiZtBSAcWuWSMz/view?usp=drive_link)
+![Vídeo oficial](https://drive.google.com/file/d/1uFpKqxN3oNoNzYosUbBiZtBSAcWuWSMz/view?usp=sharing)
 ***
 ## Tecnologias Utilizadas
 * React JS(Html, Css, Hooks)
